@@ -19,9 +19,9 @@ for i, row in df_code.query('市場 == ["東証一部"]').iterrows():
         url="http://k-db.com/stocks/"+str(int(row["SC"]))+"-T/1d/"+year+"?download=csv"
         df_tmp=pd.read_csv(url)
         df_tmp.to_csv("download/"+str(row["SC"])+row["名称"]+year+".csv")
-        df_company_tmp=pd.concat([df_company_tmp, df_tmp])
+        df_company_tmp=pd.concat([df_tmp,df_company_tmp])
         print(url)
         time.sleep(10)
 
     # まとめて保存
-    df_company_tmp.to_csv("download/"+str(row["SC"])+row["名称"]+".csv")
+    df_company_tmp.reset_index().to_csv("download/"+str(row["SC"])+row["名称"]+".csv")
